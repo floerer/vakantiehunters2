@@ -33,7 +33,7 @@ class ApiData{
   getHolidays() async {
     // Get data using the endpoint
     if(!getHolidaysRun){
-      holidays = await wc.getAsync("products?per_page=15");
+      holidays = await wc.getAsync("products?per_page=45");
       getHolidaysRun = true;
       return holidays;
     } else {
