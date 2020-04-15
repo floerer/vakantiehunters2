@@ -3,6 +3,8 @@ import 'package:google_nav_bar/google_nav_bar.dart';
 import 'api.dart';
 import 'dart:ui';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'holidayinfo.dart';
+import 'theme.dart';
 
 void main() => runApp(MyApp());
 
@@ -12,82 +14,6 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'VakantieHunters Demo',
       home: MyHomePage(title: 'VakantieHunters'),
-    );
-  }
-}
-
-//INFO SCREEN OF HOLIDAY
-class HolidayInfo extends StatelessWidget {
-  static ApiData api = new ApiData();
-  int id;
-
-  //constructor for id
-  HolidayInfo(id){
-    this.id = id;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Vakantie',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: themeColor,
-      ),
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text(
-            'Vakantie',
-            style: TextStyle(color: themeColor, fontWeight: FontWeight.bold),
-          ),
-          leading: IconButton(
-              icon: Icon(
-                Icons.arrow_back,
-                color: themeColor,
-              ),
-            onPressed: () => Navigator.pop(context),
-          ),
-          backgroundColor: Colors.white,
-        ),
-        body: FutureBuilder(
-            future: api.getHoliday(id),
-            builder: (_, s) {
-              if (s.data == null) {
-                return Container(
-                  child: Center(
-                    child: SpinKitDoubleBounce(
-                      color: themeColor,
-                      size: 50.0,
-                    ),
-                  ),
-                );
-              }
-              return Container(
-                child: Card(
-                  child: new Column(children: <Widget>[
-                    new Container(
-                      width: 500,
-                      height: 300,
-                      decoration: new BoxDecoration(
-                        image: new DecorationImage(
-                          image: new NetworkImage(s.data['images'][0]['src']),
-                          fit: BoxFit.fill,
-                        ),
-                      ),
-                    ),
-                    new Container(
-                      child: Text(s.data['name']),
-                    ),
-                    new Container(
-                      child:
-                      Text(s.data['description'] + s.data['external_url']),
-                    )
-                  ],
-                  ),
-                ),
-              );
-            }),
-      ),
     );
   }
 }
@@ -183,6 +109,9 @@ class _MyHomePageState extends State<MyHomePage> {
             }
 
             return ListView.builder(
+              //image - s.data[index]["images"][0]["src"]
+              //title - s.data[index]["name"]
+              //desc - s.data['description']
                 itemCount: s.data.length,
                 itemBuilder: (_, index) {
                   /// create a list of products
@@ -220,7 +149,7 @@ class _MyHomePageState extends State<MyHomePage> {
           'Index 3: hello',
           style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
         );
-      case 2:
+      case 3:
         return Text(
           'Index 4: doei',
           style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
@@ -229,18 +158,3 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
-//Color for app, this is the main greenish color
-MaterialColor themeColor = MaterialColor(0xFF5EB936, color);
-
-Map<int, Color> color = {
-  50: Color.fromRGBO(94, 185, 54, .1),
-  100: Color.fromRGBO(94, 185, 54, .2),
-  200: Color.fromRGBO(94, 185, 54, .3),
-  300: Color.fromRGBO(94, 185, 54, .4),
-  400: Color.fromRGBO(94, 185, 54, .5),
-  500: Color.fromRGBO(94, 185, 54, .6),
-  600: Color.fromRGBO(94, 185, 54, .7),
-  700: Color.fromRGBO(94, 185, 54, .8),
-  800: Color.fromRGBO(94, 185, 54, .9),
-  900: Color.fromRGBO(94, 185, 54, 1),
-};
