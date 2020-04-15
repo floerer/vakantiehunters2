@@ -42,8 +42,8 @@ class ApiData{
   }
 
   //Retrieve specific categorie/location holidays from the API
-  getCategoryHolidays(String categorie) async{
-    var p = await wc.getAsync("products?category=" + categorie);
+  getCategoryHolidays(int categorie) async{
+    var p = await wc.getAsync("products?category=" + categorie.toString());
     return p;
   }
 

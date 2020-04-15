@@ -5,6 +5,7 @@ import 'dart:ui';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'holidayinfo.dart';
 import 'theme.dart';
+import 'resultpage.dart';
 
 void main() => runApp(MyApp());
 
@@ -141,9 +142,39 @@ class _MyHomePageState extends State<MyHomePage> {
           },
         );
       case 1:
-        return Text(
-          'Index 2: test',
-          style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+        return FutureBuilder(
+          future: api.getCategories(),
+          builder: (_, s) {
+            if (s.data == null) {
+              return Container(
+                child: SpinKitDoubleBounce(
+                  color: themeColor,
+                  size: 50.0,
+                ),
+              );
+            }
+
+            return ListView.builder(
+              itemCount: s.data.length,
+              itemBuilder: (_, index) {
+                /// create a list of products
+                return Card(
+                  elevation: 3,
+                  margin: EdgeInsets.fromLTRB(4, 7, 4, 7),
+                  child: ListTile(
+                    leading: Icon(Icons.wb_sunny),
+                    title: Text(s.data[index]["name"]),
+                    onTap: () {
+                      int categoryId = s.data[index]["id"];
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => ResultPage(categoryId)),
+                      );
+                    },
+                  ),
+                );
+              });
+          },
         );
       case 2:
         return Text(
