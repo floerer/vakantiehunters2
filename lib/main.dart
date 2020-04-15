@@ -16,11 +16,19 @@ class MyApp extends StatelessWidget {
 }
 
 //TESTING
-class Test extends StatelessWidget {
+class HolidayInfo extends StatelessWidget {
+  static ApiData api = new ApiData();
+  int id;
+
+  //constructor for id
+  HolidayInfo(id){
+    this.id = id;
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'TEST',
+      title: 'Vakantie',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: themeColor,
@@ -28,11 +36,46 @@ class Test extends StatelessWidget {
       home: Scaffold(
         appBar: AppBar(
           title: Text(
-            'TEST',
+            'Vakantie',
             style: TextStyle(color: themeColor, fontWeight: FontWeight.bold),
+          ),
+          leading: IconButton(
+              icon: Icon(
+                Icons.arrow_back,
+                color: themeColor,
+              ),
+            onPressed: () => Navigator.pop(context),
           ),
           backgroundColor: Colors.white,
         ),
+        body: FutureBuilder(
+            future: api.getHoliday(id),
+            builder: (_, s) {
+              return Container(
+                child: Card(
+                  child: new Column(children: <Widget>[
+                    new Container(
+                      width: 500,
+                      height: 300,
+                      decoration: new BoxDecoration(
+                        image: new DecorationImage(
+                          image: new NetworkImage(s.data['images'][0]['src']),
+                          fit: BoxFit.fill,
+                        ),
+                      ),
+                    ),
+                    new Container(
+                      child: Text(s.data['name']),
+                    ),
+                    new Container(
+                      child:
+                      Text(s.data['description'] + s.data['external_url']),
+                    )
+                  ],
+                  ),
+                ),
+              );
+            }),
       ),
     );
   }
@@ -136,11 +179,10 @@ class _MyHomePageState extends State<MyHomePage> {
                     margin: EdgeInsets.fromLTRB(4, 7, 4, 7),
                     child: ListTile(
                       onTap: () {
-                        //holidayId = s.data[index]["id"];
-                        print("clicked holiday");
+                        int holidayId = s.data[index]["id"];
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => Test()),
+                          MaterialPageRoute(builder: (context) => HolidayInfo(holidayId)),
                         );
                       },
                       leading: CircleAvatar(
