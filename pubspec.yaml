@@ -13,6 +13,7 @@ dependencies:
   cupertino_icons: ^0.1.2
   google_nav_bar: ^2.0.0
   woocommerce_api:
+  flutter_spinkit: ^4.0.0
 
 dev_dependencies:
   flutter_test:

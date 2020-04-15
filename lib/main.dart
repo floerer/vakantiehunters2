@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'api.dart';
 import 'dart:ui';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 void main() => runApp(MyApp());
 
@@ -15,7 +16,7 @@ class MyApp extends StatelessWidget {
   }
 }
 
-//TESTING
+//INFO SCREEN OF HOLIDAY
 class HolidayInfo extends StatelessWidget {
   static ApiData api = new ApiData();
   int id;
@@ -51,6 +52,16 @@ class HolidayInfo extends StatelessWidget {
         body: FutureBuilder(
             future: api.getHoliday(id),
             builder: (_, s) {
+              if (s.data == null) {
+                return Container(
+                  child: Center(
+                    child: SpinKitDoubleBounce(
+                      color: themeColor,
+                      size: 50.0,
+                    ),
+                  ),
+                );
+              }
               return Container(
                 child: Card(
                   child: new Column(children: <Widget>[
@@ -164,9 +175,10 @@ class _MyHomePageState extends State<MyHomePage> {
           builder: (_, s) {
             if (s.data == null) {
               return Container(
-                child: Center(
-                  child: Text("Laden..."),
-                ),
+                child: SpinKitDoubleBounce(
+                  color: themeColor,
+                  size: 50.0,
+              ),
               );
             }
 
