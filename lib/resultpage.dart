@@ -12,9 +12,11 @@ import 'holidayinfo.dart';
 class ResultPage extends StatelessWidget {
   static ApiData api = new ApiData();
   int id;
+  String name;
 
-  ResultPage(int id){
+  ResultPage(int id, String name){
     this.id = id;
+    this.name = name;
   }
 
   @override
@@ -30,7 +32,7 @@ class ResultPage extends StatelessWidget {
             home: Scaffold(
                 appBar: AppBar(
                   title: Text(
-                    'Categoriën',
+                    name,
                     style:
                     TextStyle(color: themeColor, fontWeight: FontWeight.bold),
                   ),

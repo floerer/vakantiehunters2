@@ -1,5 +1,4 @@
 import 'dart:ui';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'api.dart';
@@ -11,6 +10,7 @@ import 'SizeConfig.dart';
 class HolidayInfo extends StatelessWidget {
   static ApiData api = new ApiData();
   int id;
+  List<Widget> imageWidgetList = new List<Widget>();
 
   //constructor for id
   HolidayInfo(id) {
@@ -20,6 +20,18 @@ class HolidayInfo extends StatelessWidget {
   String removeAllHtmlTags(String htmlText) {
     RegExp exp = RegExp(r"<[^>]*>", multiLine: true, caseSensitive: true);
     return htmlText.replaceAll(exp, '');
+  }
+
+  void addImages(AsyncSnapshot s){
+    for(int i = s.data["images"].length - 1; i >= 0; i--){
+      imageWidgetList.add(Image.network(
+        s.data["images"][i]["src"],
+        fit: BoxFit.contain,
+        height: 100 * SizeConfig.imageSizeMultiplier,
+        width: 100 * SizeConfig.imageSizeMultiplier,
+        )
+      );
+    }
   }
 
   @override
@@ -61,6 +73,7 @@ class HolidayInfo extends StatelessWidget {
                       ),
                     );
                   }
+                  addImages(s);
                 return Column(
                   children: <Widget>[
                     Stack(overflow: Overflow.visible, children: <Widget>[
@@ -69,19 +82,19 @@ class HolidayInfo extends StatelessWidget {
                         height: 10 * SizeConfig.heightMultiplier,
                         decoration: BoxDecoration(color: Colors.white),
                       ),
-                      Positioned(
-                        child: Image.network(
-                          s.data["images"][0]["src"],
-                          fit: BoxFit.contain,
-                          height: 100 * SizeConfig.imageSizeMultiplier,
-                          width: 100 * SizeConfig.imageSizeMultiplier,
+                      Container(
+                        height: 35 * SizeConfig.heightMultiplier,
+                        width: 100 * SizeConfig.widthMultiplier,
+                        child: new ListView(
+                          scrollDirection: Axis.horizontal,
+                          children: imageWidgetList
                         ),
                       ),
                       Positioned(
-                        top: 35 * SizeConfig.heightMultiplier,
+                        top: 30 * SizeConfig.heightMultiplier,
                         child: Container(
                           width: MediaQuery.of(context).size.width,
-                          height: 65 * SizeConfig.heightMultiplier,
+                          height: 70 * SizeConfig.heightMultiplier,
                           decoration: BoxDecoration(
                               color: Colors.white,
                               borderRadius: BorderRadius.only(

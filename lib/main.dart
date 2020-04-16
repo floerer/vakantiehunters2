@@ -129,13 +129,13 @@ class _MyHomePageState extends State<MyHomePage> {
                         );
                       },
                       leading: CircleAvatar(
-                        child: Image.network(s.data[index]["images"][0]["src"]),
+                        child: Image.network(s.data[index]["images"][0]["src"], fit: BoxFit.fill,),
                         radius: 30,
                         backgroundColor: themeColor,
                       ),
                       title: Text(s.data[index]["name"]),
                       subtitle:
-                          Text("Buy now for \$ " + s.data[index]["price"]),
+                          Text("Boek nu vanaf €" + s.data[index]["sale_price"]),
                     ),
                   );
                 });
@@ -168,7 +168,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       int categoryId = s.data[index]["id"];
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => ResultPage(categoryId)),
+                        MaterialPageRoute(builder: (context) => ResultPage(categoryId, s.data[index]["name"])),
                       );
                     },
                   ),
