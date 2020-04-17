@@ -21,7 +21,7 @@ class ApiData{
   getCategories() async{
     /// Get data using the endpoint
     if(!getCategoriesRun){
-      categories = await wc.getAsync("products/categories?hide_empty=true&per_page=60&order=desc&orderby=count");
+      categories = await wc.getAsync("products/categories?&orderby=count&hide_empty=true&per_page=60&order=desc");
       getCategoriesRun = true;
       return categories;
     } else {

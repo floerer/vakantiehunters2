@@ -111,9 +111,6 @@ class _MyHomePageState extends State<MyHomePage> {
             }
 
             return ListView.builder(
-              //image - s.data[index]["images"][0]["src"]
-              //title - s.data[index]["name"]
-              //desc - s.data['description']
                 itemCount: s.data.length,
                 itemBuilder: (_, index) {
                   /// create a list of products
